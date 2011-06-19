@@ -1,7 +1,6 @@
 case ARGV[0]
 when "-e", "--edit"
-  system("vim ~/.list.data")
-  STDOUT.puts "done editing"
+  List::Base.new().edit
 when "-h", "--help"
   STDOUT.puts <<-EOF
 Command line help message
