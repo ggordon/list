@@ -5,9 +5,10 @@ require 'colored'
 module List
 
   class Base
+    include Colored
 
     def initialize
-      @list_list = ENV['LIST_LIST'] || "~/.list.list"
+      @list_list = ENV['LIST_LIST'] || "#{ENV['HOME']}/.list.list"
       @list_bak  = "#{@list_list}.bak"
     end
 
@@ -35,45 +36,34 @@ module List
       File.foreach(@list_list) do |line|
         case line
         when /(^[hH] )(.*)$/
-          high $2
+          print_line $2, :high
         when /(^[mM] )(.*)$/
-          med $2
+          print_line $2, :med
         when /(^[lL] )(.*)$/
-          low $2
+          print_line $2, :low
         when /(^[xX] )(.*)$/
-          done $2
+          print_line $2, :done
         when /(^[?] )(.*)$/
-          unknown $2
+          print_line $2, :unknown
         else
-          unknown line
+          print_line line, :unknown
         end
         @count += 1
       end
-      puts "done rendering".green.bold
       puts
+      puts "done rendering".green.bold
     end
 
-    def print_line(label, str)
+    def print_line(str, category)
+      label = List::CATEGORIES[category][:label]
+      color = List::CATEGORIES[category][:color]
       # highlight projects
       str = str.gsub(/\+\w+/){ |w| w.underline }
-      printf " %3{c}. %4{l} %{s}\n", c: @count, l: label, s: str
+      label = colorize(label, color)
+      str = colorize(str, color)
+      formatted = sprintf " %3{c}. %1{l} %{s}\n", c: @count, l: label, s: str
+      print formatted
     end
-    def high str
-      print_line 'HIGH'.magenta, str
-    end
-    def med str
-      print_line 'MED '.blue, str
-    end
-    def low str
-      print_line 'LOW '.magenta.bold, str
-    end
-    def done str
-      print_line 'DONE'.green, str
-    end
-    def unknown str
-      print_line '?   '.red.bold, str
-    end
-
 
   end
 end
