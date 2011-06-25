@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency("colored")
   gem.add_development_dependency('minitest')
   gem.add_development_dependency('purdytest')
+  gem.add_development_dependency('simplecov')
 
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
@@ -19,3 +20,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = List::VERSION
 end
+
+
