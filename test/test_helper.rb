@@ -7,7 +7,14 @@ SimpleCov.start do
 end
 
 require 'minitest/autorun'
+
+# colorize test output
 require 'purdytest'
+Purdytest.configure do |io|
+  io.pass  = :cyan
+  io.error = :magenta
+  io.fail  = :magenta
+end
 
 require 'list'
 
