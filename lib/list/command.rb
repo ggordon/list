@@ -1,13 +1,19 @@
-case ARGV[0]
-when "-e", "--edit"
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: list [options]"
+  opts.on("-e", "--edit", "Edit list") do |e|
+    options[:edit] = e
+  end
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+if options.has_key? :edit
   List::Base.new().edit
-when "-h", "--help"
-  STDOUT.puts <<-EOF
-Command line help message
-list
-list -e
-list -h
-EOF
 else
   List::Base.new().render
 end

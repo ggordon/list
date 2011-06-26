@@ -34,8 +34,6 @@ module List
         end
         @count += 1
       end
-      puts
-      puts "done rendering".green.bold
     end
 
     def print_line(str, category)

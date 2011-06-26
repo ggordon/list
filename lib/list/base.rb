@@ -10,7 +10,12 @@ module List
     end
 
     def render
+      start_time = Time.now
       List::Renderer.new(@config).draw
+      end_time = Time.now
+      total_time = end_time - start_time
+      puts
+      puts "rendered in #{total_time} secs".green.bold
     end
 
     def edit
